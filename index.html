@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Запись к Татьяне Романенковой</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root{
+      --bg: var(--tg-theme-bg-color, #0f0f10);
+      --text: var(--tg-theme-text-color, #ffffff);
+      --hint: var(--tg-theme-hint-color, #9aa0a6);
+      --btn: var(--tg-theme-button-color, #5e8bff);
+      --btn-text: var(--tg-theme-button-text-color, #ffffff);
+      --card: rgba(255,255,255,.04);
+      --border: rgba(255,255,255,.12);
+      --radius: 16px;
+    }
+    html,body{height:100%}
+    body{
+      margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+      background: var(--bg); color: var(--text);
+      display:flex; align-items:center; justify-content:center;
+      padding:16px;
+    }
+    .wrap{width:100%; max-width:680px}
+    .card{
+      background: var(--card);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      padding:20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      backdrop-filter: blur(10px);
+    }
+    h1{margin:0 0 4px;font-size:22px}
+    p.lead{margin:0 0 16px;color:var(--hint)}
+    .grid{display:grid; gap:12px}
+    .row{display:grid; gap:12px; grid-template-columns: 1fr 1fr}
+    label{font-size:13px; color:var(--hint)}
+    input, select, textarea{
+      width:100%; color:var(--text); background:#00000022;
+      border:1px solid var(--border); border-radius:12px;
+      padding:12px 14px; font-size:15px; outline:none;
+    }
+    textarea{min-height:96px; resize:vertical}
+    .note{font-size:12px; color:var(--hint)}
+    .divider{height:1px; background:var(--border); margin:4px 0 8px}
+    .inline{display:flex; gap:10px; align-items:center}
+    .inline input[type=checkbox]{width:auto; height:auto}
+    .btn{
+      display:inline-block; text-align:center; width:100%;
+      background: var(--btn); color: var(--btn-text); border:none;
+      padding:14px 16px; font-weight:600; border-radius:12px; cursor:pointer;
+    }
+    .hidden{display:none}
+    .success{border:1px solid #2ea04344; background:#2ea04322; padding:10px 12px; border-radius:10px; font-size:14px}
+    @media (max-width:560px){ .row{grid-template-columns: 1fr} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>🗓️ Запись на консультацию</h1>
+      <p class="lead">Форма внутри Telegram. Данные видны только вам и психологу.</p>
+
+      <div id="ok" class="success hidden">Заявка отправлена — ожидайте подтверждения в чате ✅</div>
+
+      <div id="form" class="grid">
+        <div class="row">
+          <div>
+            <label>ФИО</label>
+            <input id="fullName" type="text" placeholder="Как к вам обращаться" required />
+          </div>
+          <div>
+            <label>Username в Telegram</label>
+            <input id="username" type="text" placeholder="@username" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Телефон / WhatsApp</label>
+            <input id="phone" type="tel" inputmode="tel" placeholder="+7…" required />
+          </div>
+          <div>
+            <label>Формат</label>
+            <select id="format">
+              <option value="Диагностика 20 мин (бесплатно)">Диагностика 20 мин (бесплатно)</option>
+              <option value="Сессия 50 мин">Сессия 50 мин</option>
+              <option value="Пакет 4 сессии">Пакет 4 сессии</option>
+              <option value="Пакет 8 сессий">Пакет 8 сессий</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label>Комментарий (по желанию)</label>
+          <textarea id="comment" placeholder="Пара слов о запросе"></textarea>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Желаемое время (опционально)</label>
+            <input id="when" type="datetime-local" />
+          </div>
+          <div>
+            <label>E-mail (опционально)</label>
+            <input id="email" type="email" placeholder="name@example.com" />
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="inline">
+          <input id="consent" type="checkbox" />
+          <label for="consent">С правилами ознакомлен(а) и согласен(на) на обработку данных.</label>
+        </div>
+        <div class="note">Правила: <a id="rulesLink" href="#" target="_blank" rel="noopener">открыть</a>. Конфиденциальность соблюдается.</div>
+
+        <!-- Фолбэк-кнопка на случай запуска в браузере, а не в Telegram -->
+        <button id="fallback" class="btn hidden">Отправить заявку</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ====== ПАРАМЕТРЫ ПОД ВАС ======
+    const BOT_USERNAME  = "tromanenkova_bot"; // ваш @бот без @
+    const RULES_URL     = "https://t.me/tromanenkova_bot?start=policy"; // либо ссылка на страницу правил
+    const DEFAULT_FORMAT= "Диагностика 20 мин (бесплатно)";
+    // ================================
+
+    const tg = window.Telegram?.WebApp;
+
+    // Префилл полей
+    function prefillFromInitData(){
+      try{
+        const u = tg?.initDataUnsafe?.user;
+        if(u){
+          const name = [u.first_name, u.last_name].filter(Boolean).join(" ");
+          if(name) document.querySelector("#fullName").value = name;
+          if(u.username) document.querySelector("#username").value = "@"+u.username;
+        }
+      } catch(e){}
+    }
+
+    function validate(){
+      const fullName = document.querySelector("#fullName").value.trim();
+      const phone    = document.querySelector("#phone").value.trim();
+      const consent  = document.querySelector("#consent").checked;
+      return fullName.length>1 && phone.length>=7 && consent;
+    }
+
+    function collect(){
+      const payload = {
+        source: "webapp",
+        fullName: document.querySelector("#fullName").value.trim(),
+        username: document.querySelector("#username").value.trim(),
+        phone: document.querySelector("#phone").value.trim(),
+        format: document.querySelector("#format").value,
+        comment: document.querySelector("#comment").value.trim(),
+        when: document.querySelector("#when").value, // ISO без TZ
+        email: document.querySelector("#email").value.trim(),
+        ts: new Date().toISOString()
+      };
+      return payload;
+    }
+
+    function onSubmit(){
+      if(!validate()){
+        tg?.HapticFeedback?.notificationOccurred?.("error");
+        tg?.showAlert?.("Проверьте поля: ФИО, телефон и согласие с правилами.");
+        return;
+      }
+      const data = JSON.stringify(collect());
+      if(tg){
+        tg.sendData(data); // уйдёт в бот как web_app_data
+        tg.HapticFeedback?.notificationOccurred?.("success");
+        document.querySelector("#ok").classList.remove("hidden");
+        document.querySelector("#form").classList.add("hidden");
+        setTimeout(()=>tg.close(), 1000);
+      }else{
+        // не в Telegram — покажем в консоли и скопируем
+        console.log("Payload:", data);
+        navigator.clipboard?.writeText?.(data);
+        document.querySelector("#ok").classList.remove("hidden");
+        document.querySelector("#form").classList.add("hidden");
+      }
+    }
+
+    // Инициализация Telegram WebApp
+    if(tg){
+      tg.ready();
+      tg.expand();
+      tg.MainButton.setText("Отправить заявку");
+      tg.MainButton.enable();
+      tg.MainButton.show();
+      tg.onEvent("mainButtonClicked", onSubmit);
+      tg.SettingsButton?.show?.();
+    }else{
+      // Фолбэк в браузере
+      document.querySelector("#fallback").classList.remove("hidden");
+      document.querySelector("#fallback").addEventListener("click", onSubmit);
+    }
+
+    // начальные значения
+    document.querySelector("#format").value = DEFAULT_FORMAT;
+    document.querySelector("#rulesLink").href = RULES_URL;
+    prefillFromInitData();
+  </script>
+</body>
+</html>
