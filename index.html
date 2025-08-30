@@ -361,15 +361,17 @@
                 // В Telegram отправляем данные и закрываем приложение
                 if (tg) {
                     tg.sendData(JSON.stringify(formData));
-                    setTimeout(() => tg.close(), 2000);
+                    // Убрали автоматическое закрытие, чтобы пользователь мог видеть сообщение
                 }
             });
             
-            // Закрытие формы
+            // Закрытие формы - исправленная версия
             closeBtn.addEventListener('click', function() {
                 if (tg) {
+                    // В Telegram закрываем веб-приложение
                     tg.close();
                 } else {
+                    // В браузере просто скрываем сообщение об успехе
                     form.style.display = 'block';
                     success.style.display = 'none';
                 }
