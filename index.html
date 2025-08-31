@@ -1,308 +1,402 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Заявка на консультацию</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Запись к психологу | Татьяна Романенкова</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root{
-      --bg:#0b0f14;
-      --card:#121823;
-      --muted:#8ea2b2;
-      --text:#e9eef3;
-      --accent:#7cc4ff;
-      --accent-2:#4aa3ff;
-      --ok:#1fce88;
-      --warn:#ffb23f;
-      --err:#ff6b6b;
-      --stroke:#243244;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius:20px;
+    :root {
+      --primary: #2c3e50;
+      --primary-light: #34495e;
+      --accent: #e67e22;
+      --accent-hover: #d35400;
+      --text: #2c3e50;
+      --text-light: #7f8c8d;
+      --bg: #ecf0f1;
+      --card-bg: #ffffff;
+      --border: #ddd;
+      --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      --radius: 10px;
+      --transition: all 0.3s ease;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:
-        radial-gradient(1200px 600px at 80% -10%, rgba(79,140,255,.18), transparent 60%),
-        radial-gradient(900px 500px at -10% 0%, rgba(28,208,163,.18), transparent 60%),
-        var(--bg);
-      color:var(--text);
-      display:grid;
-      place-items:center;
-      padding:24px;
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    .container{
-      width:min(860px,100%);
+
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg) 0%, #f5f7fa 100%);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
     }
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)) , var(--card);
-      border:1px solid var(--stroke);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
+
+    .container {
+      width: 100%;
+      max-width: 500px;
     }
-    header{
-      padding:28px 28px 8px;
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
     }
-    h1{
-      margin:0 0 6px;
-      font-size:28px;
-      font-weight:700;
-      letter-spacing:.2px;
+
+    h1 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--primary);
     }
-    .sub{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.5;
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 20px;
     }
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px 18px;
-      padding:24px 28px 8px;
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: var(--transition);
     }
-    @media (max-width: 720px){
-      .grid{grid-template-columns:1fr}
+
+    .card-header {
+      background: var(--primary);
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 500;
     }
-    .field{
-      display:flex; flex-direction:column; gap:8px;
+
+    .card-body {
+      padding: 20px;
     }
-    .label{
-      font-size:13px; color:var(--muted);
+
+    .form-group {
+      margin-bottom: 15px;
     }
-    .req{color:var(--warn)}
-    input, select, textarea{
-      width:100%;
-      padding:14px 14px;
-      border-radius:12px;
-      border:1px solid var(--stroke);
-      background:#0e141d;
-      color:var(--text);
-      outline:none;
-      transition:border .15s ease, box-shadow .15s ease;
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: var(--primary);
+      font-size: 13px;
     }
-    input::placeholder, textarea::placeholder{color:#6e8396}
-    textarea{min-height:110px; resize:vertical}
-    input:focus, select:focus, textarea:focus{
-      border-color:var(--accent-2);
-      box-shadow:0 0 0 3px rgba(74,163,255,.18);
+
+    .input-wrapper {
+      position: relative;
     }
-    .row-2{grid-column:span 2}
-    @media (max-width:720px){ .row-2{grid-column:span 1} }
-    .muted{
-      color:var(--muted); font-size:12.5px; line-height:1.5;
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 15px;
+      transition: var(--transition);
+      background: var(--card-bg);
+      color: var(--text);
     }
-    .agree{
-      padding:8px 28px 0;
-      display:flex; align-items:flex-start; gap:10px;
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
     }
-    .agree input{margin-top:3px}
-    .actions{
-      padding:18px 28px 28px;
-      display:flex; gap:12px; flex-wrap:wrap;
+
+    .input-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      font-size: 14px;
     }
-    .btn{
-      appearance:none; border:none; cursor:pointer;
-      padding:14px 18px; border-radius:12px; font-weight:600;
-      background:linear-gradient(180deg, var(--accent), var(--accent-2));
-      color:#001020; box-shadow:0 8px 22px rgba(74,163,255,.35);
-      transition:transform .08s ease;
+
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 15px 0;
     }
-    .btn:active{ transform:translateY(1px) }
-    .btn.secondary{
-      background:#101722; color:var(--text);
-      border:1px solid var(--stroke); box-shadow:none;
+
+    .checkbox-group input {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
     }
-    .note{
-      margin-top:12px; color:var(--muted); font-size:12.5px; padding:0 28px 22px;
+
+    .checkbox-group label {
+      font-weight: normal;
+      margin-bottom: 0;
+      line-height: 1.4;
+      font-size: 13px;
     }
-    .ok{ color:var(--ok) }
-    .err{ color:var(--err) }
-    footer{
-      padding:12px 28px 24px; color:var(--muted); font-size:12px;
-      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
-      border-top:1px dashed var(--stroke);
+
+    .privacy-link {
+      color: var(--accent);
+      text-decoration: none;
+      transition: var(--transition);
     }
-    a{ color:var(--accent); text-decoration:none }
-    a:hover{ text-decoration:underline }
-    .pill{
-      display:inline-flex; align-items:center; gap:8px; padding:8px 12px;
-      border-radius:999px; border:1px solid var(--stroke); background:#0e141d; color:var(--muted); font-size:12.5px;
+
+    .privacy-link:hover {
+      text-decoration: underline;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .btn:hover {
+      background: var(--accent-hover);
+    }
+
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    .success-icon {
+      font-size: 50px;
+      color: #27ae60;
+      margin-bottom: 15px;
+    }
+
+    .success-title {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    .success-text {
+      color: var(--text-light);
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      color: var(--text-light);
+      font-size: 12px;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    @media (max-width: 480px) {
+      .card-body {
+        padding: 15px;
+      }
+      
+      h1 {
+        font-size: 20px;
+      }
+      
+      input, select, textarea {
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+      
+      .btn {
+        padding: 12px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <div class="header">
+      <h1>Запись на консультацию</h1>
+      <p class="subtitle">Психоаналитический психолог Татьяна Романенкова</p>
+    </div>
+
     <div class="card">
-      <header>
-        <h1>Заявка на консультацию</h1>
-        <p class="sub">Оставьте контакты и выберите формат — я свяжусь для подтверждения времени.</p>
-      </header>
+      <div class="card-header">
+        Персональная форма записи
+      </div>
 
-      <form id="leadForm" autocomplete="on" novalidate>
-        <div class="grid">
-          <div class="field">
-            <label class="label">Формат <span class="req">*</span></label>
-            <select id="format" required>
-              <option value="">Выберите формат…</option>
-              <option value="diag">Диагностика, 20 минут</option>
-              <option value="single">Индивидуальная сессия, 50 минут</option>
-              <option value="pack4">Пакет из 4 сессий (со скидкой)</option>
-              <option value="pack8">Пакет из 8 сессий (со скидкой)</option>
-            </select>
+      <div class="card-body">
+        <div id="form">
+          <div class="form-group">
+            <label for="fullName">ФИО</label>
+            <div class="input-wrapper">
+              <input type="text" id="fullName" placeholder="Ваше полное имя" required>
+              <div class="input-icon"><i class="fas fa-user"></i></div>
+            </div>
           </div>
 
-          <div class="field">
-            <label class="label">Ваше имя и фамилия <span class="req">*</span></label>
-            <input id="name" type="text" placeholder="Например, Анна Иванова" required />
+          <div class="form-group">
+            <label for="phone">Телефон / WhatsApp</label>
+            <div class="input-wrapper">
+              <input type="tel" id="phone" placeholder="+7 (___) ___-__-__" required>
+              <div class="input-icon"><i class="fas fa-phone"></i></div>
+            </div>
           </div>
 
-          <div class="field">
-            <label class="label">Ник Telegram (если есть)</label>
-            <input id="username" type="text" placeholder="@nickname" />
-            <div class="muted">Подставится автоматически, если открыли из Telegram</div>
+          <div class="form-group">
+            <label for="format">Формат консультации</label>
+            <div class="input-wrapper">
+              <select id="format">
+                <option value="Диагностика 20 мин (бесплатно)">Диагностика 20 мин (бесплатно)</option>
+                <option value="Сессия 50 мин">Сессия 50 мин</option>
+                <option value="Пакет 4 сессии">Пакет 4 сессии</option>
+                <option value="Пакет 8 сессий">Пакет 8 сессий</option>
+              </select>
+              <div class="input-icon"><i class="fas fa-calendar"></i></div>
+            </div>
           </div>
 
-          <div class="field">
-            <label class="label">Телефон / WhatsApp <span class="req">*</span></label>
-            <input id="phone" type="tel" inputmode="tel" placeholder="+7 900 000-00-00" required />
+          <div class="form-group">
+            <label for="comment">Комментарий или предпочтительное время</label>
+            <textarea id="comment" placeholder="Кратко опишите ваш запрос или укажите удобное время для связи..." rows="2"></textarea>
           </div>
 
-          <div class="field">
-            <label class="label">Желаемая дата (необязательно)</label>
-            <input id="date" type="date" />
+          <div class="divider"></div>
+
+          <div class="checkbox-group">
+            <input type="checkbox" id="consent" required>
+            <label for="consent">Я согласен(а) с <a href="https://t.me/tromanenkova_bot?start=privacy" class="privacy-link">правилами обработки персональных данных</a></label>
           </div>
 
-          <div class="field">
-            <label class="label">Желательное время (необязательно)</label>
-            <input id="time" type="time" />
-          </div>
-
-          <div class="field row-2">
-            <label class="label">Коротко о запросе (необязательно)</label>
-            <textarea id="comment" placeholder="Что сейчас важно, с чем хотите поработать?"></textarea>
-          </div>
+          <button id="submitBtn" class="btn">Отправить заявку</button>
         </div>
 
-        <label class="agree">
-          <input id="agree" type="checkbox" required />
-          <span class="muted">Согласен(а) с обработкой персональных данных и <a id="rulesLink" target="_blank" rel="noopener">правилами работы</a>.</span>
-        </label>
-
-        <div class="actions">
-          <button class="btn" type="submit">Отправить заявку</button>
-          <a class="btn secondary" id="openRules" href="#" target="_blank" rel="noopener">Открыть правила</a>
+        <div id="success" class="success-message">
+          <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+          <h3 class="success-title">Заявка отправлена!</h3>
+          <p class="success-text">Спасибо за вашу заявку. Я свяжусь с вами в ближайшее время для подтверждения записи.</p>
+          <button id="closeBtn" class="btn">Закрыть</button>
         </div>
+      </div>
+    </div>
 
-        <p id="status" class="note"></p>
-        <p class="note">Если форма открыта <b>вне</b> Telegram, отправка из браузера может быть недоступна — используйте кнопку внутри бота.</p>
-      </form>
-
-      <footer>
-        <span class="pill">🔒 Данные видит только психолог</span>
-        <span>Окно можно закрыть после отправки заявки.</span>
-      </footer>
+    <div class="footer">
+      <p>© 2023 Татьяна Романенкова | <a href="https://t.me/tromanenkova_bot?start=privacy">Конфиденциальность</a></p>
     </div>
   </div>
 
   <script>
-    // ====== НАСТРОЙКИ (заполните под себя) ======
-    const BOT_USERNAME = "tromanenkova_bot";  // ваш юзернейм бота без @
-    const RULES_URL    = "https://t.me/TatianaPsyCoaching"; // страница с правилами (или ваш сайт/пост)
-    const DEFAULT_FORMAT = "diag"; // diag | single | pack4 | pack8
-    // ===========================================
-
-    const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-
-    // Применяем цветовую схему клиента Telegram
-    if (tg) {
-      tg.expand();
-      document.body.style.background = tg.themeParams?.bg_color || getComputedStyle(document.body).background;
-    }
-
-    // Элементы формы
-    const els = {
-      form: document.getElementById('leadForm'),
-      format: document.getElementById('format'),
-      name: document.getElementById('name'),
-      username: document.getElementById('username'),
-      phone: document.getElementById('phone'),
-      date: document.getElementById('date'),
-      time: document.getElementById('time'),
-      comment: document.getElementById('comment'),
-      agree: document.getElementById('agree'),
-      status: document.getElementById('status'),
-      rulesLink: document.getElementById('rulesLink'),
-      openRules: document.getElementById('openRules'),
-    };
-
-    // Ссылки на правила
-    els.rulesLink.href = RULES_URL;
-    els.openRules.href = RULES_URL;
-
-    // Подстановка из Telegram
-    if (tg?.initDataUnsafe?.user) {
-      const u = tg.initDataUnsafe.user;
-      if (u.username && !els.username.value) els.username.value = '@' + u.username;
-      const fullName = [u.first_name || '', u.last_name || ''].join(' ').trim();
-      if (fullName && !els.name.value) els.name.value = fullName;
-    }
-
-    // Предзаполнение из URL (?format=pack4&date=2025-09-01&time=12:00)
-    const params = new URLSearchParams(location.search);
-    const presetFormat = params.get('format');
-    const presetDate   = params.get('date');
-    const presetTime   = params.get('time');
-
-    els.format.value = presetFormat || DEFAULT_FORMAT || '';
-    if (presetDate) els.date.value = presetDate;
-    if (presetTime) els.time.value = presetTime;
-
-    // Валидация телефона попроще
-    function validPhone(v){
-      return /^(\+?\d[\d\s\-()]{7,})$/.test((v||'').trim());
-    }
-
-    // Отправка заявки
-    els.form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      els.status.textContent = '';
-
-      if (!els.form.checkValidity() || !validPhone(els.phone.value)) {
-        els.status.innerHTML = '⚠️ <span class="err">Проверьте обязательные поля, телефон — в формате +7 900 000-00-00.</span>';
-        return;
-      }
-
-      const payload = {
-        kind: "lead",
-        format: els.format.value,
-        name: els.name.value.trim(),
-        username: els.username.value.trim(),
-        phone: els.phone.value.trim(),
-        date: els.date.value || null,
-        time: els.time.value || null,
-        comment: els.comment.value.trim() || null,
-        agree: !!els.agree.checked,
-        meta: {
-          ts: new Date().toISOString(),
-          referrer: document.referrer || null,
-          href: location.href,
-        }
-      };
-
+    document.addEventListener('DOMContentLoaded', function() {
+      const tg = window.Telegram?.WebApp;
+      const form = document.getElementById('form');
+      const success = document.getElementById('success');
+      const submitBtn = document.getElementById('submitBtn');
+      const closeBtn = document.getElementById('closeBtn');
+      
+      console.log("Telegram WebApp initialized:", !!tg);
+      
+      // Инициализация Telegram WebApp
       if (tg) {
-        tg.sendData(JSON.stringify(payload));
-        els.status.innerHTML = '✅ <span class="ok">Заявка отправлена. Окно можно закрыть.</span>';
-        setTimeout(() => tg.close(), 600);
-      } else {
-        els.status.innerHTML = 'ℹ️ Откройте форму из Telegram: <a href="https://t.me/'+BOT_USERNAME+'?start=lead" target="_blank" rel="noopener">@'+BOT_USERNAME+'</a>';
+        tg.ready();
+        tg.expand();
+        console.log("Telegram user:", tg.initDataUnsafe?.user);
+        
+        // Заполняем данные пользователя, если доступны
+        const user = tg.initDataUnsafe?.user;
+        if (user) {
+          const name = [user.first_name, user.last_name].filter(Boolean).join(' ');
+          if (name) document.getElementById('fullName').value = name;
+        }
       }
+      
+      // Обработка отправки формы
+      submitBtn.addEventListener('click', function() {
+        console.log("Submit button clicked");
+        const fullName = document.getElementById('fullName').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const consent = document.getElementById('consent').checked;
+        
+        if (!fullName || !phone || !consent) {
+          alert('Пожалуйста, заполните все обязательные поля и дайте согласие на обработку данных.');
+          return;
+        }
+        
+        const formData = {
+          fullName: fullName,
+          phone: phone,
+          format: document.getElementById('format').value,
+          comment: document.getElementById('comment').value.trim(),
+          timestamp: new Date().toISOString()
+        };
+        
+        console.log("Form data prepared:", formData);
+        
+        // Показываем сообщение об успехе
+        form.style.display = 'none';
+        success.style.display = 'block';
+        
+        // В Telegram отправляем данные и закрываем приложение
+        if (tg) {
+          console.log("Sending data to Telegram bot...");
+          try {
+            tg.sendData(JSON.stringify(formData));
+            console.log("Data sent successfully");
+            setTimeout(() => {
+              if (tg) {
+                tg.close();
+                console.log("WebApp closed");
+              }
+            }, 2000);
+          } catch (e) {
+            console.error("Error sending data:", e);
+          }
+        } else {
+          console.log("Not in Telegram environment, data not sent");
+        }
+      });
+      
+      // Закрытие формы
+      closeBtn.addEventListener('click', function() {
+        if (tg) {
+          tg.close();
+        } else {
+          form.style.display = 'block';
+          success.style.display = 'none';
+        }
+      });
+      
+      // Маска для телефона
+      const phoneInput = document.getElementById('phone');
+      phoneInput.addEventListener('input', function(e) {
+        const x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+        e.target.value = !x[2] ? x[1] : '+' + x[1] + ' (' + x[2] + (x[3] ? ') ' + x[3] + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '') : '');
+      });
     });
   </script>
 </body>
