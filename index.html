@@ -1,403 +1,158 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Запись к психологу | Татьяна Романенкова</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    :root {
-      --primary: #2c3e50;
-      --primary-light: #34495e;
-      --accent: #e67e22;
-      --accent-hover: #d35400;
-      --text: #2c3e50;
-      --text-light: #7f8c8d;
-      --bg: #ecf0f1;
-      --card-bg: #ffffff;
-      --border: #ddd;
-      --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      --radius: 10px;
-      --transition: all 0.3s ease;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    body {
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      background: linear-gradient(135deg, var(--bg) 0%, #f5f7fa 100%);
-      color: var(--text);
-      line-height: 1.5;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 15px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 500px;
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: var(--primary);
-    }
-
-    .subtitle {
-      font-size: 14px;
-      color: var(--text-light);
-      margin-bottom: 20px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      transition: var(--transition);
-    }
-
-    .card-header {
-      background: var(--primary);
-      color: white;
-      padding: 15px 20px;
-      text-align: center;
-      font-size: 16px;
-      font-weight: 500;
-    }
-
-    .card-body {
-      padding: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 500;
-      color: var(--primary);
-      font-size: 13px;
-    }
-
-    .input-wrapper {
-      position: relative;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 12px 14px;
-      border: 2px solid var(--border);
-      border-radius: var(--radius);
-      font-size: 15px;
-      transition: var(--transition);
-      background: var(--card-bg);
-      color: var(--text);
-    }
-
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
-    }
-
-    .input-icon {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-light);
-      font-size: 14px;
-    }
-
-    .checkbox-group {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin: 15px 0;
-    }
-
-    .checkbox-group input {
-      width: 18px;
-      height: 18px;
-      margin-top: 3px;
-    }
-
-    .checkbox-group label {
-      font-weight: normal;
-      margin-bottom: 0;
-      line-height: 1.4;
-      font-size: 13px;
-    }
-
-    .privacy-link {
-      color: var(--accent);
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .privacy-link:hover {
-      text-decoration: underline;
-    }
-
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: var(--radius);
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      text-align: center;
-    }
-
-    .btn:hover {
-      background: var(--accent-hover);
-    }
-
-    .success-message {
-      display: none;
-      text-align: center;
-      padding: 30px 20px;
-    }
-
-    .success-icon {
-      font-size: 50px;
-      color: #27ae60;
-      margin-bottom: 15px;
-    }
-
-    .success-title {
-      font-size: 20px;
-      margin-bottom: 10px;
-      color: var(--primary);
-    }
-
-    .success-text {
-      color: var(--text-light);
-      margin-bottom: 20px;
-      font-size: 14px;
-    }
-
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 20px 0;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 20px;
-      color: var(--text-light);
-      font-size: 12px;
-    }
-
-    .footer a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    @media (max-width: 480px) {
-      .card-body {
-        padding: 15px;
-      }
-      
-      h1 {
-        font-size: 20px;
-      }
-      
-      input, select, textarea {
-        padding: 10px 12px;
-        font-size: 14px;
-      }
-      
-      .btn {
-        padding: 12px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Персональная форма записи</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --tg-theme-bg-color: #ffffff;
+            --tg-theme-text-color: #000000;
+            --tg-theme-hint-color: #999999;
+            --tg-theme-button-color: #0088cc;
+            --tg-theme-button-text-color: #ffffff;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1, p {
+            text-align: center;
+        }
+        form {
+            width: 100%;
+            max-width: 400px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--tg-theme-text-color);
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--tg-theme-hint-color);
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+        }
+        textarea {
+            height: 100px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        #successModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--tg-theme-bg-color);
+            padding: 20px;
+            border: 1px solid var(--tg-theme-hint-color);
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            color: var(--tg-theme-hint-color);
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>Запись на консультацию</h1>
-      <p class="subtitle">Психоаналитический психолог Татьяна Романенкова</p>
-    </div>
+    <h1>Запись на консультацию</h1>
+    <p>Психоаналитический психолог Татьяна Романенкова</p>
+    <p>Персональная форма записи</p>
 
-    <div class="card">
-      <div class="card-header">
-        Персональная форма записи
-      </div>
-
-      <div class="card-body">
-        <div id="form">
-          <div class="form-group">
-            <label for="fullName">ФИО</label>
-            <div class="input-wrapper">
-              <input type="text" id="fullName" placeholder="Ваше полное имя" required>
-              <div class="input-icon"><i class="fas fa-user"></i></div>
-            </div>
-          </div>
-
-          <div class="form-group">
+    <form id="bookingForm">
+        <div class="form-group">
+            <label for="fio">ФИО</label>
+            <input type="text" id="fio" required>
+        </div>
+        <div class="form-group">
             <label for="phone">Телефон / WhatsApp</label>
-            <div class="input-wrapper">
-              <input type="tel" id="phone" placeholder="+7 (___) ___-__-__" required>
-              <div class="input-icon"><i class="fas fa-phone"></i></div>
-            </div>
-          </div>
-
-          <div class="form-group">
+            <input type="tel" id="phone" required>
+        </div>
+        <div class="form-group">
             <label for="format">Формат консультации</label>
-            <div class="input-wrapper">
-              <select id="format">
-                <option value="Диагностика 20 мин (бесплатно)">Диагностика 20 мин (бесплатно)</option>
-                <option value="Сессия 50 мин">Сессия 50 мин</option>
-                <option value="Пакет 4 сессии">Пакет 4 сессии</option>
-                <option value="Пакет 8 сессий">Пакет 8 сессий</option>
-              </select>
-              <div class="input-icon"><i class="fas fa-calendar"></i></div>
-            </div>
-          </div>
-
-          <div class="form-group">
+            <select id="format" required>
+                <option value="">Выберите формат</option>
+                <option value="diag20">Диагностика 20 мин (бесплатно)</option>
+                <option value="session">Сессия 50 мин</option>
+                <option value="pack4">Пакет 4 сессии</option>
+                <option value="pack8">Пакет 8 сессий</option>
+            </select>
+        </div>
+        <div class="form-group">
             <label for="comment">Комментарий или предпочтительное время</label>
-            <textarea id="comment" placeholder="Кратко опишите ваш запрос или укажите удобное время для связи..." rows="2"></textarea>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="checkbox-group">
-            <input type="checkbox" id="consent" required>
-            <label for="consent">Я согласен(а) с <a href="https://t.me/tromanenkova_bot?start=privacy" class="privacy-link">правилами обработки персональных данных</a></label>
-          </div>
-
-          <button id="submitBtn" class="btn">Отправить заявку</button>
+            <textarea id="comment"></textarea>
         </div>
-
-        <div id="success" class="success-message">
-          <div class="success-icon"><i class="fas fa-check-circle"></i></div>
-          <h3 class="success-title">Заявка отправлена!</h3>
-          <p class="success-text">Спасибо за вашу заявку. Я свяжусь с вами в ближайшее время для подтверждения записи.</p>
-          <button id="closeBtn" class="btn">Закрыть</button>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="agreement" required>
+                Я согласен(а) с правилами обработки персональных данных
+            </label>
         </div>
-      </div>
+        <button type="submit">Отправить заявку</button>
+    </form>
+
+    <div id="successModal">
+        <p>Заявка отправлена!</p>
+        <p>Спасибо за вашу заявку. Я свяжусь с вами в ближайшее время для подтверждения записи.</p>
+        <button onclick="Telegram.WebApp.close()">Закрыть</button>
     </div>
 
-    <div class="footer">
-      <p>© 2023 Татьяна Романенкова | <a href="https://t.me/tromanenkova_bot?start=privacy">Конфиденциальность</a></p>
-    </div>
-  </div>
+    <footer>© 2023 Татьяна Романенкова | Конфиденциальность</footer>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const tg = window.Telegram?.WebApp;
-      const form = document.getElementById('form');
-      const success = document.getElementById('success');
-      const submitBtn = document.getElementById('submitBtn');
-      const closeBtn = document.getElementById('closeBtn');
-      
-      console.log("Telegram WebApp initialized:", !!tg);
-      
-      // Инициализация Telegram WebApp
-      if (tg) {
-        tg.ready();
-        tg.expand();
-        console.log("Telegram user:", tg.initDataUnsafe?.user);
-        
-        // Заполняем данные пользователя, если доступны
-        const user = tg.initDataUnsafe?.user;
-        if (user) {
-          const name = [user.first_name, user.last_name].filter(Boolean).join(' ');
-          if (name) document.getElementById('fullName').value = name;
-        }
-      }
-      
-      // Обработка отправки формы
-      submitBtn.addEventListener('click', function() {
-        console.log("Submit button clicked");
-        const fullName = document.getElementById('fullName').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        const consent = document.getElementById('consent').checked;
-        
-        if (!fullName || !phone || !consent) {
-          alert('Пожалуйста, заполните все обязательные поля и дайте согласие на обработку данных.');
-          return;
-        }
-        
-        const formData = {
-          fullName: fullName,
-          phone: phone,
-          format: document.getElementById('format').value,
-          comment: document.getElementById('comment').value.trim(),
-          timestamp: new Date().toISOString()
-        };
-        
-        console.log("Form data prepared:", formData);
-        
-        // Показываем сообщение об успехе
-        form.style.display = 'none';
-        success.style.display = 'block';
-        
-        // В Telegram отправляем данные и закрываем приложение
-        if (tg) {
-          console.log("Sending data to Telegram bot...");
-          try {
-            tg.sendData(JSON.stringify(formData));
-            console.log("Data sent successfully");
-            setTimeout(() => {
-              if (tg) {
-                tg.close();
-                console.log("WebApp closed");
-              }
-            }, 2000);
-          } catch (e) {
-            console.error("Error sending data:", e);
-          }
-        } else {
-          console.log("Not in Telegram environment, data not sent");
-        }
-      });
-      
-      // Закрытие формы
-      closeBtn.addEventListener('click', function() {
-        if (tg) {
-          tg.close();
-        } else {
-          form.style.display = 'block';
-          success.style.display = 'none';
-        }
-      });
-      
-      // Маска для телефона
-      const phoneInput = document.getElementById('phone');
-      phoneInput.addEventListener('input', function(e) {
-        const x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
-        e.target.value = !x[2] ? x[1] : '+' + x[1] + ' (' + x[2] + (x[3] ? ') ' + x[3] + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '') : '');
-      });
-    });
-  </script>
+    <script>
+        Telegram.WebApp.ready();
+
+        const form = document.getElementById('bookingForm');
+        const successModal = document.getElementById('successModal');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!form.checkValidity()) {
+                alert('Пожалуйста, заполните все обязательные поля и согласитесь с правилами обработки данных.');
+                return;
+            }
+
+            const formData = {
+                full_name: document.getElementById('fio').value,
+                phone: document.getElementById('phone').value,
+                format: document.getElementById('format').value,
+                comment: document.getElementById('comment').value,
+                timestamp: new Date().toISOString()
+            };
+
+            Telegram.WebApp.sendData(JSON.stringify(formData));
+
+            successModal.style.display = 'block';
+        });
+    </script>
 </body>
 </html>
